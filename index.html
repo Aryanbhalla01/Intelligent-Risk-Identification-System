@@ -22,7 +22,7 @@ function sendAlert() {
   const name = document.getElementById("name").value;
   const location = document.getElementById("location").value;
 
-  fetch("https://YOUR_RENDER_LINK/emergency", {
+  fetch("https://https://iris-w99r.onrender.com/emergency", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -32,6 +32,24 @@ function sendAlert() {
   .then(res => res.text())
   .then(data => alert(data))
   .catch(err => alert("Error sending alert"));
+}
+
+// 🎤 Voice Command Feature
+const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+recognition.continuous = true;
+
+recognition.onresult = function(event) {
+  const transcript = event.results[event.results.length - 1][0].transcript.trim().toLowerCase();
+
+  if (transcript.includes("help me") || transcript.includes("emergency")) {
+    alert("Voice command detected! Sending emergency alert...");
+    sendAlert();
+  }
+};
+
+function startVoice() {
+  recognition.start();
+  alert("Voice recognition started. Say 'Help me' to trigger alert.");
 }
 </script>
 
